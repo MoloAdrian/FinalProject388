@@ -36,29 +36,31 @@ public class PlayerController : MonoBehaviour
                 //compute distance to launchpad
                 float dist = (gameObject.transform.position - thislaunchpad.transform.position).magnitude;
                 float factor = 1;
-                if (dist <= 20)
+                Debug.Log(dist);
+                if (dist <= 1.1)
                 {
-                    factor = 35;
+                    factor = 100;
                     Debug.Log("Perfect " + factor);
                 }
-                else if (dist <= 30)
+                else if (dist <= 1.3)
                 {
-                    factor = 25;
+                    factor = 80;
                     Debug.Log("Very Good " + factor);
                 }
-                else if (dist <= 40)
+                else if (dist <= 1.5F)
                 {
-                    factor = 20;
+                    factor = 65;
                     Debug.Log("Good " + factor);
 
                 }
                 else
                 {
+                    factor = -70;
                     Debug.Log("Bad " + factor);
 
                 }
 
-                thislaunchpad.transform.position = new Vector3(Random.Range(-2, 2), Random.Range(-3, 4.75f), 0);
+                thislaunchpad.transform.position = new Vector3(Random.Range(-2, 2), Random.Range(-3, 4.75f), 1);
                 Vector3 currVel = gameObject.GetComponent<Rigidbody>().velocity;
 
 
@@ -69,7 +71,7 @@ public class PlayerController : MonoBehaviour
 
         if (Input.GetMouseButtonUp(0))
         {
-            if (!closeToLaunchPad)
+            if (!closeToLaunchPad && pressed)
             {
                 Time.timeScale = 1.0f;
                 pressed = false;
@@ -77,7 +79,7 @@ public class PlayerController : MonoBehaviour
                 Vector2 Difference = Releasepos - mouseClickPos;
 
                 float len = Difference.magnitude * 10;
-                Debug.Log(Difference.magnitude);
+                //Debug.Log(Difference.magnitude);
                 len = Mathf.Clamp(len, minShootLen, maxShootLen);
                 Difference = Difference.normalized;
                 Rigidbody rb = gameObject.GetComponent<Rigidbody>();
@@ -86,7 +88,10 @@ public class PlayerController : MonoBehaviour
             }
         }
 
-     
+     if (!pressed)
+        {
+            Time.timeScale = 1.0f;
+        }
     }
 
     private void OnTriggerEnter(Collider other)
