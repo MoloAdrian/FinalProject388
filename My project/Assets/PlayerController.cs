@@ -1,5 +1,6 @@
 using System.Collections;
 using System.Collections.Generic;
+using System.Security.Cryptography;
 using UnityEngine;
 
 public class PlayerController : MonoBehaviour
@@ -22,6 +23,8 @@ public class PlayerController : MonoBehaviour
     // Update is called once per frame
     void Update()
     {
+
+        Debug.Log(transform.position.y);
         if (Input.GetMouseButtonDown(0))
         {
             if (!closeToLaunchPad)
@@ -37,20 +40,24 @@ public class PlayerController : MonoBehaviour
                 float dist = (gameObject.transform.position - thislaunchpad.transform.position).magnitude;
                 float factor = 1;
                 Debug.Log(dist);
+                float distancetonext = 0.0f;
                 if (dist <= 1.1)
                 {
                     factor = 100;
                     Debug.Log("Perfect " + factor);
+                    distancetonext = 25;
                 }
                 else if (dist <= 1.3)
                 {
                     factor = 80;
                     Debug.Log("Very Good " + factor);
+                    distancetonext = 17;
                 }
                 else if (dist <= 1.5F)
                 {
                     factor = 65;
                     Debug.Log("Good " + factor);
+                    distancetonext = 14;
 
                 }
                 else
@@ -59,8 +66,10 @@ public class PlayerController : MonoBehaviour
                     Debug.Log("Bad " + factor);
 
                 }
+                float LY = thislaunchpad.transform.position.y;
 
-                thislaunchpad.transform.position = new Vector3(Random.Range(-2, 2), Random.Range(-3, 4.75f), 1);
+                
+                thislaunchpad.transform.position = new Vector3(Random.Range(-2, 2), Random.Range(LY+distancetonext-3, LY+distancetonext), 1);
                 Vector3 currVel = gameObject.GetComponent<Rigidbody>().velocity;
 
 
