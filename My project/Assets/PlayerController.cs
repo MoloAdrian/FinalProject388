@@ -16,6 +16,8 @@ public class PlayerController : MonoBehaviour
     public CameraController mCamController;
     Vector3 mVelocity;
     public ParticleSystem mLaunchParticles;
+    public ParticleSystem mBounceParticlesRight;
+    public ParticleSystem mBounceParticlesLeft;
     public Text mHowGoodText;
     public Text mJumpsText;
     public Text mHeightText;
@@ -25,6 +27,10 @@ public class PlayerController : MonoBehaviour
     public GameObject Arrow;
     float mInitialHeight;
     float mMaxHeight;
+
+    public GameObject mAimSphere1;
+    public GameObject mAimSphere2;
+    public GameObject mAimSphere3;
 
     // Start is called before the first frame update
     void Start()
@@ -40,11 +46,11 @@ public class PlayerController : MonoBehaviour
     void Update()
     {
 
-        mHeightText.text = new string( mMaxHeight.ToString("F1") + " m");
-        if (transform.position.y > mMaxHeight)
+        if (transform.position.y > mMaxHeight - mInitialHeight)
         {
             mMaxHeight = transform.position.y + mInitialHeight;
         }
+        mHeightText.text = new string( mMaxHeight.ToString("F1") + " m");
 
         mJumpsText.text = mJumps.ToString();
         if (mJumps ==0)
@@ -144,6 +150,11 @@ public class PlayerController : MonoBehaviour
         {
             if (!closeToLaunchPad && pressed)
             {
+
+
+                mAimSphere1.transform.position = new Vector3(-100,-2000,3000);
+                mAimSphere2.transform.position = new Vector3(-100,-2000,3000);
+                mAimSphere3.transform.position = new Vector3(-100, -2000, 3000);
                 if (mJumps > 0)
                 {
                     Time.timeScale = 1.0f;
@@ -170,6 +181,18 @@ public class PlayerController : MonoBehaviour
 
      if (pressed)
         {
+            //aim logic
+
+            //direction to which the ball will go
+            Vector2 Releasepos = Input.mousePosition;
+            Vector2 Difference = -0.001f * (Releasepos - mouseClickPos);
+
+            Vector3 Difference3d = new Vector3(Difference.x, Difference.y, 0);
+
+            //positions for balls
+            mAimSphere1.transform.position = transform.position + Difference3d;
+            mAimSphere2.transform.position = transform.position + 2 * Difference3d - new Vector3(0,.1f,0);
+            mAimSphere3.transform.position = transform.position + 3 * Difference3d - new Vector3(0, .3f, 0);
 
         }
     }
@@ -194,6 +217,22 @@ public class PlayerController : MonoBehaviour
 
         }
     }
+    private void OnCollisionEnter(Collision collision)
+    {
+        if (collision.gameObject.CompareTag("Wall"))
+        {
+            if (collision.transform.position.x > transform.position.x)
+            {
+                mBounceParticlesRight.Play();
+            }
+            else
+            {
+                mBounceParticlesLeft.Play();
 
-    
+            }
+           
+        }
+    }
+
+
 }

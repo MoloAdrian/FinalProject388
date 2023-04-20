@@ -34,9 +34,9 @@ public class CameraController : MonoBehaviour
             timeSinceLastLaunch += Time.deltaTime;
             if (timeSinceLastLaunch >= minTimeToCatchup)
             {
-                if (transform.position.y >= mPlayer.transform.position.y + 1)
+                if (transform.position.y >= mPlayer.transform.position.y + 3)
                 {
-                    transform.position = new Vector3(transform.position.x, mPlayer.transform.position.y + 1, transform.position.z);
+                    transform.position = new Vector3(transform.position.x, mPlayer.transform.position.y + 3, transform.position.z);
                     //transform.parent = mPlayer.transform;
                     gotToPlayer = true;
                     moveVelocity = 0.0f;
@@ -57,7 +57,7 @@ public class CameraController : MonoBehaviour
             }
             else
             {
-                transform.position = new Vector3(transform.position.x, mPlayer.transform.position.y + 1, transform.position.z);
+                transform.position = new Vector3(transform.position.x, mPlayer.transform.position.y + 3, transform.position.z);
             }
         }
     }
