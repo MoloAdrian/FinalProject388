@@ -9,19 +9,23 @@ public class CameraController : MonoBehaviour
     public float mMoveTreshold = .1f;
     public float mSpeedDecreaseFactor = 1.0f;
     float moveVelocity = 0.0f;
-    bool gotToPlayer = true;
+    bool gotToPlayer = false;
     private float timeSinceLastLaunch = 0.0f;
     private float minTimeToCatchup = 0.5f;
+    bool Started = false;
+
     // Start is called before the first frame update
     void Start()
     {
+      
         
     }
 
     // Update is called once per frame
     void Update()
     {
-        if (!gotToPlayer)
+        
+        if (Started && !gotToPlayer)
         {
             
             moveVelocity += 0.05f * Time.deltaTime;
@@ -45,13 +49,16 @@ public class CameraController : MonoBehaviour
     }
     private void FixedUpdate()
     {
-        if (!gotToPlayer)
+        if (Started)
         {
-            transform.position += new Vector3(0, moveVelocity, 0);
-        }
-        else
-        {
-            transform.position = new Vector3(transform.position.x, mPlayer.transform.position.y + 1, transform.position.z);
+            if (!gotToPlayer)
+            {
+                transform.position += new Vector3(0, moveVelocity, 0);
+            }
+            else
+            {
+                transform.position = new Vector3(transform.position.x, mPlayer.transform.position.y + 1, transform.position.z);
+            }
         }
     }
 
@@ -60,5 +67,6 @@ public class CameraController : MonoBehaviour
         transform.parent = null;
         gotToPlayer = false;
         timeSinceLastLaunch = 0.0f;
+        Started = true;
     }
 }
