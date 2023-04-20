@@ -12,6 +12,7 @@ public class PlayerController : MonoBehaviour
 
     bool closeToLaunchPad = false;
     GameObject thislaunchpad;
+    public CameraController mCamController;
 
     Vector3 mVelocity;
     // Start is called before the first frame update
@@ -24,7 +25,7 @@ public class PlayerController : MonoBehaviour
     void Update()
     {
 
-        Debug.Log(transform.position.y);
+       // Debug.Log(transform.position.y);
         if (Input.GetMouseButtonDown(0))
         {
             if (!closeToLaunchPad)
@@ -72,7 +73,10 @@ public class PlayerController : MonoBehaviour
                 thislaunchpad.transform.position = new Vector3(Random.Range(-2, 2), Random.Range(LY+distancetonext-3, LY+distancetonext), 1);
                 Vector3 currVel = gameObject.GetComponent<Rigidbody>().velocity;
 
-
+                if (factor >= 0)
+                {
+                    mCamController.PlayerLaunched();
+                }
                 gameObject.GetComponent<Rigidbody>().velocity = new Vector3(currVel.x, 0, 0);
                 gameObject.GetComponent<Rigidbody>().AddForce(new Vector3(0, 100.0f * factor, 0));
             }
@@ -120,4 +124,6 @@ public class PlayerController : MonoBehaviour
             thislaunchpad = null;
         }
     }
+
+    
 }

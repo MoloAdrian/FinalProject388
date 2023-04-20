@@ -9,6 +9,9 @@ public class CameraController : MonoBehaviour
     public float mMoveTreshold = .1f;
     public float mSpeedDecreaseFactor = 1.0f;
     float moveVelocity = 0.0f;
+    bool gotToPlayer = true;
+    private float timeSinceLastLaunch = 0.0f;
+    private float minTimeToCatchup = 0.5f;
     // Start is called before the first frame update
     void Start()
     {
@@ -18,32 +21,44 @@ public class CameraController : MonoBehaviour
     // Update is called once per frame
     void Update()
     {
-        //compute the difference in height with the player
-        float mHeightDiff = mPlayer.transform.position.y + 4 - transform.position.y;
-
-        //compute the speed in which we need to follow the player
-        //if (mHeightDiff >= 5.0f)
-        //{
-        //    mHeightDiff *= 10.0f;
-        //}
-        if (mHeightDiff <= 3.0f)
+        if (!gotToPlayer)
         {
-            mHeightDiff /= 5.0f;
+            
+            moveVelocity += 0.05f * Time.deltaTime;
+            Debug.Log(moveVelocity);
+            moveVelocity = Mathf.Clamp(moveVelocity, 0, 0.02f);
+            timeSinceLastLaunch += Time.deltaTime;
+            if (timeSinceLastLaunch >= minTimeToCatchup)
+            {
+                if (transform.position.y >= mPlayer.transform.position.y + 1)
+                {
+                    transform.position = new Vector3(transform.position.x, mPlayer.transform.position.y + 1, transform.position.z);
+                    //transform.parent = mPlayer.transform;
+                    gotToPlayer = true;
+                    moveVelocity = 0.0f;
+                }
+            }
         }
-        moveVelocity += mHeightDiff /150.0f * Time.deltaTime;
-        if (moveVelocity > mHeightDiff / 3 && moveVelocity >= 0.0f)
-        {
-            moveVelocity -= 3*(moveVelocity - mHeightDiff) * Time.deltaTime;
-        }
-
-        moveVelocity = Mathf.Clamp(moveVelocity, -2, 30);
-        //transform.position += new Vector3(0, mHeightDiff, 0) * Time.deltaTime;
 
 
 
     }
     private void FixedUpdate()
     {
-        transform.position += new Vector3(0, moveVelocity, 0);
+        if (!gotToPlayer)
+        {
+            transform.position += new Vector3(0, moveVelocity, 0);
+        }
+        else
+        {
+            transform.position = new Vector3(transform.position.x, mPlayer.transform.position.y + 1, transform.position.z);
+        }
+    }
+
+    public void PlayerLaunched()
+    {
+        transform.parent = null;
+        gotToPlayer = false;
+        timeSinceLastLaunch = 0.0f;
     }
 }
