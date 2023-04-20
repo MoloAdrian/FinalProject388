@@ -18,14 +18,21 @@ public class PlayerController : MonoBehaviour
     public ParticleSystem mLaunchParticles;
     public Text mHowGoodText;
     public Text mJumpsText;
+    public Text mHeightText;
     public float mJumps;
+    bool puffed = false;
 
     public GameObject Arrow;
+    float mInitialHeight;
+    float mMaxHeight;
 
     // Start is called before the first frame update
     void Start()
     {
         mLaunchParticles.Stop();
+        mInitialHeight = transform.position.y;
+        mMaxHeight = mInitialHeight;
+
 
     }
 
@@ -33,7 +40,28 @@ public class PlayerController : MonoBehaviour
     void Update()
     {
 
+        mHeightText.text = new string( mMaxHeight.ToString("F1") + " m");
+        if (transform.position.y > mMaxHeight)
+        {
+            mMaxHeight = transform.position.y + mInitialHeight;
+        }
+
         mJumpsText.text = mJumps.ToString();
+        if (mJumps ==0)
+        {
+            mJumpsText.color = Color.red;
+        }
+        if (mJumps == 1)
+        {
+            mJumpsText.color = Color.black;
+        }
+        if (mJumps == 2)
+        {
+            mJumpsText.color = Color.green;
+        }if (mJumps > 2)
+        {
+            mJumpsText.color = Color.yellow;
+        }
        // Debug.Log(transform.position.y);
         if (Input.GetMouseButtonDown(0))
         {
@@ -45,6 +73,16 @@ public class PlayerController : MonoBehaviour
                     pressed = true;
                     Time.timeScale = 0.4f;
                 }
+                else
+                {
+                    //if (!puffed)
+                    //{
+                    //    gameObject.GetComponent<Rigidbody>().AddForce(new Vector3(0, 5000.0f, 0));
+                    //    puffed = true;
+                    //    Debug.Log("Puf");
+                    //}
+
+                }
             }
             else
             {
@@ -54,14 +92,14 @@ public class PlayerController : MonoBehaviour
                 float factor = 1;
                 Debug.Log(dist);
                 float distancetonext = 0.0f;
-                if (dist <= .8f)
+                if (dist <= 1.1f)
                 {
                     factor = 100;
                     Debug.Log("Perfect " + factor);
                     distancetonext = 25;
                     mHowGoodText.text = "Perfect!";
                 }
-                else if (dist <= 1.2f)
+                else if (dist <= 1.4f)
                 {
                     factor = 80;
                     Debug.Log("Very Good " + factor);
@@ -69,7 +107,7 @@ public class PlayerController : MonoBehaviour
                     mHowGoodText.text = "Very Good!";
 
                 }
-                else if (dist <= 1.5F)
+                else if (dist <= 1.6F)
                 {
                     factor = 65;
                     Debug.Log("Good " + factor);
@@ -97,6 +135,7 @@ public class PlayerController : MonoBehaviour
                 }
                 gameObject.GetComponent<Rigidbody>().velocity = new Vector3(currVel.x, 0, 0);
                 gameObject.GetComponent<Rigidbody>().AddForce(new Vector3(0, 100.0f * factor, 0));
+                puffed = false;
                 mJumps++;
             }
         }
