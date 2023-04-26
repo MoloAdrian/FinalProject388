@@ -5,6 +5,7 @@ using Unity.VisualScripting;
 using UnityEngine;
 using UnityEngine.UI;
 
+
 public class PlayerController : MonoBehaviour
 {
     Vector2 mouseClickPos;
@@ -48,6 +49,8 @@ public class PlayerController : MonoBehaviour
     public GameObject mBouncesounder;
     private AudioSource mBounceSource;
 
+    bool mHasStarted = false;
+
 
     private AudioSource mAudioSource;
     // Start is called before the first frame update
@@ -67,13 +70,16 @@ public class PlayerController : MonoBehaviour
 
         mBounceSource = mBouncesounder.GetComponent<AudioSource>();
 
+        mHasStarted = false;
+        gameObject.GetComponent<Rigidbody>().useGravity = false;
+
 
     }
 
     // Update is called once per frame
     void Update()
     {
-
+        
         if (mEmptying)
         {
             mBarCharge -= 10 * mBarDischargeSpeed * Time.deltaTime;
@@ -94,24 +100,33 @@ public class PlayerController : MonoBehaviour
         mHeightText.text = new string( mMaxHeight.ToString("F1") + " m");
 
         mJumpsText.text = mJumps.ToString();
-        if (mJumps ==0)
+        if (!mEmptying)
         {
-            mJumpsText.color = Color.red;
-        }
-        if (mJumps == 1)
-        {
-            mJumpsText.color = Color.black;
-        }
-        if (mJumps == 2)
-        {
-            mJumpsText.color = Color.green;
-        }if (mJumps > 2)
-        {
-            mJumpsText.color = Color.yellow;
+            if (mJumps == 0)
+            {
+                mJumpsText.color = Color.red;
+            }
+            if (mJumps == 1)
+            {
+                mJumpsText.color = Color.black;
+            }
+            if (mJumps == 2)
+            {
+                mJumpsText.color = Color.green;
+            }
+            if (mJumps > 2)
+            {
+                mJumpsText.color = Color.yellow;
+            }
         }
        // Debug.Log(transform.position.y);
         if (Input.GetMouseButtonDown(0))
         {
+            if (!mHasStarted)
+            {
+                mHasStarted = true;
+                gameObject.GetComponent<Rigidbody>().useGravity = true;
+            }
             if ( !closeToLaunchPad  )
             {
                 if (mJumps > 0)
@@ -297,6 +312,8 @@ public class PlayerController : MonoBehaviour
             mEmptying = true;
             mGainJumpParts.Play();
             mBar.GetComponent<AudioSource>().Play();
+            mJumpsText.color = new Vector4(0.41f,0.85f,1,1);
+            
         }
         mBarCharge = Mathf.Clamp(mBarCharge, 0, 100);
         float normalizedCharge = mBarCharge / 100.0f;
