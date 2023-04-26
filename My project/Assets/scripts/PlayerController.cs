@@ -1,6 +1,7 @@
 using System.Collections;
 using System.Collections.Generic;
 using System.Security.Cryptography;
+using Unity.VisualScripting;
 using UnityEngine;
 using UnityEngine.UI;
 
@@ -32,12 +33,39 @@ public class PlayerController : MonoBehaviour
     public GameObject mAimSphere2;
     public GameObject mAimSphere3;
 
+    public GameObject mBar;
+    public ParticleSystem mGainJumpParts;
+    private float mBarZeroPos;
+    private float mBarMaxPos;
+    float mBarCharge = .0f;
+    float mBarDischargeSpeed = 10.0f;
+    bool mEmptying = false;
+
+    public AudioClip mHoldClip;
+    public AudioClip mJumpClip;
+    public AudioClip mLaunchClip;
+
+    public GameObject mBouncesounder;
+    private AudioSource mBounceSource;
+
+
+    private AudioSource mAudioSource;
     // Start is called before the first frame update
     void Start()
     {
         mLaunchParticles.Stop();
+        mGainJumpParts.Stop();
+
+        mBounceParticlesRight.Stop();
+        mBounceParticlesLeft.Stop();
         mInitialHeight = transform.position.y;
         mMaxHeight = mInitialHeight;
+
+        mBarZeroPos = -2.694f;
+        mBarMaxPos = 0;
+        mAudioSource = GetComponent<AudioSource>();
+
+        mBounceSource = mBouncesounder.GetComponent<AudioSource>();
 
 
     }
@@ -45,6 +73,19 @@ public class PlayerController : MonoBehaviour
     // Update is called once per frame
     void Update()
     {
+
+        if (mEmptying)
+        {
+            mBarCharge -= 10 * mBarDischargeSpeed * Time.deltaTime;
+            if (mBarCharge <= 0.0f)
+            {
+                mEmptying = false;
+            }
+        }
+        else if (mBarCharge >= 0.0f)
+        {
+            mBarCharge -= mBarDischargeSpeed * Time.deltaTime;
+        }
 
         if (transform.position.y > mMaxHeight - mInitialHeight)
         {
@@ -78,17 +119,12 @@ public class PlayerController : MonoBehaviour
                     mouseClickPos = Input.mousePosition;
                     pressed = true;
                     Time.timeScale = 0.4f;
-                }
-                else
-                {
-                    //if (!puffed)
-                    //{
-                    //    gameObject.GetComponent<Rigidbody>().AddForce(new Vector3(0, 5000.0f, 0));
-                    //    puffed = true;
-                    //    Debug.Log("Puf");
-                    //}
 
+                    mAudioSource.Stop();
+                    mAudioSource.clip = mHoldClip;
+                    mAudioSource.Play();
                 }
+                
             }
             else
             {
@@ -104,6 +140,8 @@ public class PlayerController : MonoBehaviour
                     Debug.Log("Perfect " + factor);
                     distancetonext = 25;
                     mHowGoodText.text = "Perfect!";
+                    if (!mEmptying)
+                      mBarCharge += 30.0f;
                 }
                 else if (dist <= 1.4f)
                 {
@@ -111,6 +149,9 @@ public class PlayerController : MonoBehaviour
                     Debug.Log("Very Good " + factor);
                     distancetonext = 17;
                     mHowGoodText.text = "Very Good!";
+                    if (!mEmptying)
+                       mBarCharge += 25.0f;
+
 
                 }
                 else if (dist <= 1.6F)
@@ -119,6 +160,8 @@ public class PlayerController : MonoBehaviour
                     Debug.Log("Good " + factor);
                     distancetonext = 14;
                     mHowGoodText.text = "Good!";
+                    if (!mEmptying)
+                        mBarCharge += 22.0f;
 
 
                 }
@@ -143,6 +186,11 @@ public class PlayerController : MonoBehaviour
                 gameObject.GetComponent<Rigidbody>().AddForce(new Vector3(0, 100.0f * factor, 0));
                 puffed = false;
                 mJumps++;
+
+
+                mAudioSource.Stop();
+                mAudioSource.clip = mLaunchClip;
+                mAudioSource.Play();
             }
         }
 
@@ -151,7 +199,9 @@ public class PlayerController : MonoBehaviour
             if (!closeToLaunchPad && pressed)
             {
 
-
+                mAudioSource.Stop();
+                mAudioSource.clip = mJumpClip;
+                mAudioSource.Play();
                 mAimSphere1.transform.position = new Vector3(-100,-2000,3000);
                 mAimSphere2.transform.position = new Vector3(-100,-2000,3000);
                 mAimSphere3.transform.position = new Vector3(-100, -2000, 3000);
@@ -179,7 +229,7 @@ public class PlayerController : MonoBehaviour
             Time.timeScale = 1.0f;
         }
 
-     if (pressed)
+        if (pressed)
         {
             //aim logic
 
@@ -195,6 +245,9 @@ public class PlayerController : MonoBehaviour
             mAimSphere3.transform.position = transform.position + 3 * Difference3d - new Vector3(0, .3f, 0);
 
         }
+
+
+        SetBarPos();
     }
 
     private void OnTriggerEnter(Collider other)
@@ -230,8 +283,27 @@ public class PlayerController : MonoBehaviour
                 mBounceParticlesLeft.Play();
 
             }
+            mBounceSource.Play();
            
         }
+    }
+
+    private void SetBarPos()
+    {
+
+        if (mBarCharge >= 100.0f)
+        {
+            mJumps++;
+            mEmptying = true;
+            mGainJumpParts.Play();
+            mBar.GetComponent<AudioSource>().Play();
+        }
+        mBarCharge = Mathf.Clamp(mBarCharge, 0, 100);
+        float normalizedCharge = mBarCharge / 100.0f;
+        float pos = Mathf.Lerp(mBarZeroPos, mBarMaxPos, normalizedCharge);
+        Vector3 pos3d = mBar.transform.position;
+        pos3d.x = pos;
+        mBar.transform.position = pos3d;
     }
 
 
