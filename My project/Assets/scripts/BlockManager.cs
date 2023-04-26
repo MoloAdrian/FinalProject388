@@ -15,7 +15,7 @@ public class BlockManager : MonoBehaviour
     {
         //Spawn first launchpad
         mLaunchPads = gameObject.transform.GetChild(0);
-        mGenerator = GameObject.Find("LevelGenerator").GetComponent<LevelGenerator>();
+        mGenerator = GameObject.Find("FlowManager").GetComponent<LevelGenerator>();
         if (mLPIdx < mLaunchPads.childCount)
         {
             //Set launchpad at random position and activate
@@ -39,7 +39,7 @@ public class BlockManager : MonoBehaviour
             }
             else
             {
-                float launchBonus = mCurrentLP.GetComponent<LaunchPad>().mAccuracyValue;
+                float launchBonus = mCurrentLP.GetComponent<LaunchPad>().mAccuracyValue - 3;
                 mGenerator.GenerateNewLevel(new Vector3(0, mCurrentLP.transform.position.y + launchBonus, 0));
                 mBlockEnded = true;
             }

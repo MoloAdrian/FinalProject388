@@ -46,6 +46,6 @@ public class FlowManager : MonoBehaviour
 
     public void ToMenu()
     {
-
+        SceneManager.LoadScene("MenuScene");
     }
 }

@@ -56,7 +56,7 @@ public class MainMenu : MonoBehaviour
     }
     public void GoToGamePlay()
     {
-        SceneManager.LoadScene(1);
+        SceneManager.LoadScene("SampleScene");
     }
     public void UpdateMusicValue()
     {

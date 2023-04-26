@@ -351,6 +351,8 @@
 -r:"Library/Bee/artifacts/1900b0aEDbg.dag/Unity.VSCode.Editor.ref.dll"
 -r:"Library/Bee/artifacts/1900b0aEDbg.dag/UnityEditor.UI.ref.dll"
 -r:"Library/Bee/artifacts/1900b0aEDbg.dag/UnityEngine.UI.ref.dll"
+"Assets/FlowManager.cs"
+"Assets/Scaler.cs"
 "Assets/scripts/BlockManager.cs"
 "Assets/scripts/CameraController.cs"
 "Assets/scripts/LaunchPad.cs"
