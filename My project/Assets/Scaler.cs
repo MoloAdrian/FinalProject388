@@ -12,7 +12,7 @@ public class Scaler : MonoBehaviour
     void Start()
     {
 #if UNITY_ANDROID
-        resolutionFactor = 1920.0f / Screen.currentResolution.;
+        resolutionFactor =  Screen.height/ 1920.0f ;
         canvas.scaleFactor = resolutionFactor;
 #endif
     }
