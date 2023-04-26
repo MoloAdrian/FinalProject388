@@ -1,6 +1,8 @@
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
+using UnityEngine.SocialPlatforms.Impl;
+using UnityEngine.UI;
 
 public class CameraController : MonoBehaviour
 {
@@ -14,22 +16,33 @@ public class CameraController : MonoBehaviour
     private float minTimeToCatchup = 0.5f;
     bool Started = false;
 
+    public GameObject LoseScreen;
+
+    float highest;
+
+    bool Lost = false;
+
+
     // Start is called before the first frame update
     void Start()
     {
-      
+        highest = mPlayer.transform.position.y;
+        Lost = false;
         
     }
 
     // Update is called once per frame
     void Update()
     {
-        
+        if (Lost)
+        {
+            return;
+        }
         if (Started && !gotToPlayer)
         {
             
             moveVelocity += 0.05f * Time.deltaTime;
-            Debug.Log(moveVelocity);
+            //Debug.Log(moveVelocity);
             moveVelocity = Mathf.Clamp(moveVelocity, 0, 0.02f);
             timeSinceLastLaunch += Time.deltaTime;
             if (timeSinceLastLaunch >= minTimeToCatchup)
@@ -46,9 +59,33 @@ public class CameraController : MonoBehaviour
 
 
 
+        if (mPlayer.transform.position.y > highest)
+        {
+            highest = mPlayer.transform.position.y;
+        }
+
+        if (mPlayer.transform.position.y < highest - 10)
+        {
+            Lost = true;
+            LoseScreen.SetActive(true);
+            LoseScreen.transform.Find("Score").GetComponent<Text>().text = new string("Score: " + highest.ToString("F1"));
+            float highscore = PlayerPrefs.GetFloat("High");
+            if (highest > highscore)
+            {
+                PlayerPrefs.SetFloat("High", highest);
+                highscore = highest;
+                LoseScreen.transform.Find("newhs").gameObject.SetActive(true);
+            }
+            LoseScreen.transform.Find("HighScore").GetComponent<Text>().text = new string("High-Score: " + highscore.ToString("F1"));
+        }
+
     }
     private void FixedUpdate()
     {
+        if (Lost)
+        {
+            return;
+        }
         if (Started)
         {
             if (!gotToPlayer)

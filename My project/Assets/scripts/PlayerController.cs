@@ -79,6 +79,13 @@ public class PlayerController : MonoBehaviour
     // Update is called once per frame
     void Update()
     {
+
+        if (FlowManager.isPaused)
+        {
+            pressed = false;
+            mAudioSource.Stop();
+            return;
+        }
         
         if (mEmptying)
         {
