@@ -15,7 +15,7 @@ GameObject:
   - component: {fileID: 5755248595601361798}
   m_Layer: 0
   m_Name: LaunchPad
-  m_TagString: Untagged
+  m_TagString: lp
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
@@ -114,3 +114,14 @@ MonoBehaviour:
   mDirection: {x: 0, y: 1}
   mForce: 100
   mAccuracyValue: 0
+  mExtraJump: 1
+  mLastLP: 0
+  mRandomOffset: {x: 0, y: 0}
+  mVelocity: {x: 0, y: 0}
+  mMovementRange: {x: 0, y: 0}
+  mStartingPos: {x: 0, y: 0, z: 0}
+  mJumpBarFactor: 1
+  mTriggered: 0
+  mCancelPlayerVel: 0
+  mCooldownMat: {fileID: 2100000, guid: d37889536e9885f42aee48f7601a121c, type: 2}
+  mNormalMat: {fileID: 2100000, guid: 7b1a25eb616594347a26232f22cbc6d9, type: 2}

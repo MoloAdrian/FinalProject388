@@ -91,10 +91,11 @@ GameObject:
   - component: {fileID: 1110821161169353254}
   - component: {fileID: 1110821161169353249}
   - component: {fileID: 1110821161169353252}
+  - component: {fileID: 8834940600652801526}
   - component: {fileID: 8441376877181241222}
   m_Layer: 0
   m_Name: LaunchPad
-  m_TagString: Untagged
+  m_TagString: lp
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
@@ -107,7 +108,7 @@ Transform:
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 1110821161169353251}
   m_LocalRotation: {x: -0.7071068, y: 0, z: 0, w: 0.7071068}
-  m_LocalPosition: {x: -1.3, y: 1.32, z: 0.586}
+  m_LocalPosition: {x: -1.3635049, y: 0.64, z: 0}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_ConstrainProportionsScale: 0
   m_Children: []
@@ -178,6 +179,20 @@ CapsuleCollider:
   m_Height: 4
   m_Direction: 1
   m_Center: {x: 0, y: 0, z: 0}
+--- !u!114 &8834940600652801526
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1110821161169353251}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 59edfb4ba8dabf547bd0cb6c0eee30be, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  anchorType: 3
+  anchorOffset: {x: 1.2, y: 0.5, z: 0}
 --- !u!114 &8441376877181241222
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -195,6 +210,15 @@ MonoBehaviour:
   mAccuracyValue: 0
   mExtraJump: 1
   mLastLP: 0
+  mRandomOffset: {x: 0, y: 0}
+  mVelocity: {x: 0, y: 0}
+  mMovementRange: {x: 0, y: 0}
+  mStartingPos: {x: 0, y: 0, z: 0}
+  mJumpBarFactor: 1
+  mTriggered: 0
+  mCancelPlayerVel: 1
+  mCooldownMat: {fileID: 2100000, guid: d37889536e9885f42aee48f7601a121c, type: 2}
+  mNormalMat: {fileID: 2100000, guid: 7b1a25eb616594347a26232f22cbc6d9, type: 2}
 --- !u!1 &7301010337167289983
 GameObject:
   m_ObjectHideFlags: 0
@@ -207,10 +231,11 @@ GameObject:
   - component: {fileID: 7301010337167289952}
   - component: {fileID: 7301010337167289955}
   - component: {fileID: 7301010337167289954}
+  - component: {fileID: 2834445686544228079}
   - component: {fileID: 7301010337167289981}
   m_Layer: 0
   m_Name: LaunchPad
-  m_TagString: Untagged
+  m_TagString: lp
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
@@ -223,7 +248,7 @@ Transform:
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 7301010337167289983}
   m_LocalRotation: {x: -0.7071068, y: 0, z: 0, w: 0.7071068}
-  m_LocalPosition: {x: 1.9, y: 1.32, z: 0.586}
+  m_LocalPosition: {x: 1.8635049, y: 0.64, z: 0}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_ConstrainProportionsScale: 0
   m_Children: []
@@ -294,6 +319,20 @@ CapsuleCollider:
   m_Height: 4
   m_Direction: 1
   m_Center: {x: 0, y: 0, z: 0}
+--- !u!114 &2834445686544228079
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 7301010337167289983}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 59edfb4ba8dabf547bd0cb6c0eee30be, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  anchorType: 5
+  anchorOffset: {x: -1.2, y: 0.5, z: 0}
 --- !u!114 &7301010337167289981
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -311,6 +350,15 @@ MonoBehaviour:
   mAccuracyValue: 0
   mExtraJump: 1
   mLastLP: 1
+  mRandomOffset: {x: 0, y: 0}
+  mVelocity: {x: 0, y: 0}
+  mMovementRange: {x: 0, y: 0}
+  mStartingPos: {x: 0, y: 0, z: 0}
+  mJumpBarFactor: 1
+  mTriggered: 0
+  mCancelPlayerVel: 0
+  mCooldownMat: {fileID: 2100000, guid: d37889536e9885f42aee48f7601a121c, type: 2}
+  mNormalMat: {fileID: 2100000, guid: 7b1a25eb616594347a26232f22cbc6d9, type: 2}
 --- !u!1 &7301010337827259594
 GameObject:
   m_ObjectHideFlags: 0
@@ -323,6 +371,7 @@ GameObject:
   - component: {fileID: 7301010337827259598}
   - component: {fileID: 7301010337827259593}
   - component: {fileID: 7301010337827259592}
+  - component: {fileID: 6802239915102924262}
   m_Layer: 0
   m_Name: Cube (3)
   m_TagString: Wall
@@ -338,7 +387,7 @@ Transform:
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 7301010337827259594}
   m_LocalRotation: {x: -0, y: -0, z: -0.23376288, w: 0.9722937}
-  m_LocalPosition: {x: -1.59, y: 2.6099997, z: 0}
+  m_LocalPosition: {x: -1.7135049, y: 2.2800002, z: 0}
   m_LocalScale: {x: 3.1056, y: 0.3375, z: 1}
   m_ConstrainProportionsScale: 0
   m_Children: []
@@ -408,3 +457,17 @@ BoxCollider:
   serializedVersion: 2
   m_Size: {x: 1, y: 1, z: 1}
   m_Center: {x: 0, y: 0, z: 0}
+--- !u!114 &6802239915102924262
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 7301010337827259594}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 59edfb4ba8dabf547bd0cb6c0eee30be, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  anchorType: 3
+  anchorOffset: {x: 1.1, y: 2.14, z: 0}

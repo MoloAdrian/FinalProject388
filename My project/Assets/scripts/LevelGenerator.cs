@@ -22,19 +22,16 @@ public class LevelGenerator : MonoBehaviour
             Destroy(mLastLevel);
         mLastLevel = mCurrentLevel;
 
-        mCurrentLevel = Instantiate(mEasyLevels[Random.Range(0, mEasyLevels.Count)], newPos, Quaternion.identity);
-        if(Random.Range(0, 2) == 1)
-            mCurrentLevel.GetComponent<BlockManager>().FlipX();
-        return;
-
         int random = Random.Range(0, 100);
         if(random <= mEasyRate)
             mCurrentLevel = Instantiate(mEasyLevels[Random.Range(0, mEasyLevels.Count)], newPos, Quaternion.identity);
         else if(random <= mNormalRate + mEasyRate)
-            mCurrentLevel = Instantiate(mNormalLevels[Random.Range(0, mEasyLevels.Count)], newPos, Quaternion.identity);
+            mCurrentLevel = Instantiate(mNormalLevels[Random.Range(0, mNormalLevels.Count)], newPos, Quaternion.identity);
         else
-            mCurrentLevel = Instantiate(mHardLevels[Random.Range(0, mEasyLevels.Count)], newPos, Quaternion.identity);
+            mCurrentLevel = Instantiate(mHardLevels[Random.Range(0, mHardLevels.Count)], newPos, Quaternion.identity);
 
+        if (Random.Range(0, 2) == 1)
+            mCurrentLevel.GetComponent<BlockManager>().FlipX();
         mLevelsCreated++;
         UpdateSpawnRates();
     }

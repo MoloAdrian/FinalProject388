@@ -84,6 +84,8 @@ public class CameraAnchor : MonoBehaviour
 	void SetAnchor(Vector3 anchor)
 	{
 		Vector3 newPos = anchor + anchorOffset;
+		if (transform.gameObject.name == "LaunchPad")
+			newPos += new Vector3(0,0,0);
 		if (!transform.position.Equals(newPos))
 		{
 			transform.position = newPos;

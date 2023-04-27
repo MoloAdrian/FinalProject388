@@ -23,6 +23,7 @@ public class LaunchPad : MonoBehaviour
     private float mCd = 0f;
     private float mMaxCD = 3f;
     private float mT = 0f;
+
     private void Update()
     {
         transform.position = mStartingPos + new Vector3(Mathf.Sin(mVelocity.x * mT) * mMovementRange.x, Mathf.Sin(mVelocity.y * mT) * mMovementRange.y, 0);

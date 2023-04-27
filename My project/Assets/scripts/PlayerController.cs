@@ -192,15 +192,19 @@ public class PlayerController : MonoBehaviour
             }
             else
             {
+                //Get components and if launchpad is not on cooldown, trigger it
                 LaunchPad lpProperties = thislaunchpad.GetComponent<LaunchPad>();
+                Rigidbody rb = gameObject.GetComponent<Rigidbody>();
                 if (!lpProperties.IsInCooldown())
                 {
-                    pressed = false;
                     //compute distance to launchpad
+                    pressed = false;
                     float dist = (gameObject.transform.position - thislaunchpad.transform.position).magnitude;
                     float factor = 1;
                     Debug.Log(dist);
                     float distancetonext = 0.0f;
+
+                    //Depending on distance give boost to launch
                     if (dist <= 1.1f)
                     {
                         factor = 100;
@@ -229,39 +233,34 @@ public class PlayerController : MonoBehaviour
                         mHowGoodText.text = "Good!";
                         if (!mEmptying)
                             mBarCharge += 22.0f * lpProperties.mJumpBarFactor;
-
-
-                    }
-                    else
-                    {
-                        //factor = -70;
-                        //Debug.Log("Bad " + factor);
-
                     }
                     float LY = thislaunchpad.transform.position.y;
 
-
-                    //thislaunchpad.transform.position = new Vector3(Random.Range(-2, 2), Random.Range(LY   +distancetonext-3, LY+distancetonext), 1);
-                    Vector3 currVel = gameObject.GetComponent<Rigidbody>().velocity;
+                    //Play camera transition if last launchpad of block
                     mLaunchParticles.Play();
                     if (factor >= 0 && lpProperties.mLastLP)
                         mCamController.PlayerLaunched();
 
                     //Set velocity and update launchpad for level generation
+                    Vector3 currVel = rb.velocity;
                     if(lpProperties.mCancelPlayerVel)
-                        gameObject.GetComponent<Rigidbody>().velocity = new Vector3(0, 0, 0);
+                        rb.velocity = new Vector3(0, 0, 0);
                    else
-                        gameObject.GetComponent<Rigidbody>().velocity = new Vector3(currVel.x, 0, 0);
+                        rb.velocity = new Vector3(currVel.x, 0, 0);
 
-                    gameObject.GetComponent<Rigidbody>().AddForce(new Vector3(lpProperties.mDirection.x * lpProperties.mForce * factor, lpProperties.mDirection.y * lpProperties.mForce * factor, 0));
+                    //Add force of launchpad and set launchpad on cooldown
+                    rb.AddForce(new Vector3(lpProperties.mDirection.x * lpProperties.mForce * factor, lpProperties.mDirection.y * lpProperties.mForce * factor, 0));
                     lpProperties.mAccuracyValue = distancetonext;
-                    closeToLaunchPad = false;
                     lpProperties.StartCooldown();
                     lpProperties.mTriggered = true;
+
+                    //Remove launchpad
+                    closeToLaunchPad = false;
                     thislaunchpad = null;
                     GetComponent<Renderer>().material.SetColor("_Color", Color.white);
                     puffed = false;
 
+                    //Give extra jump if launchpad gives it
                     if (lpProperties.mExtraJump)
                         mJumps++;
                     mAudioSource.Stop();
