@@ -45,11 +45,17 @@ public class PlayerController : MonoBehaviour
     public AudioClip mHoldClip;
     public AudioClip mJumpClip;
     public AudioClip mLaunchClip;
+    public AudioClip mHurtClip;
+
+    public Text DebugText;
 
     public GameObject mBouncesounder;
     private AudioSource mBounceSource;
 
+    public showandunshow mHurtScreen;
+
     bool mHasStarted = false;
+    public bool lost = false;
 
 
     private AudioSource mAudioSource;
@@ -84,6 +90,10 @@ public class PlayerController : MonoBehaviour
         {
             pressed = false;
             mAudioSource.Stop();
+            return;
+        }
+        if (lost)
+        {
             return;
         }
         
@@ -126,20 +136,37 @@ public class PlayerController : MonoBehaviour
                 mJumpsText.color = Color.yellow;
             }
         }
-       // Debug.Log(transform.position.y);
-        if (Input.GetMouseButtonDown(0))
+        // Debug.Log(transform.position.y);
+
+#if UNITY_ANDROID
+
+        if (Input.touchCount > 0 )
         {
+           
+            DebugText.text = new string("Touch began");
+#else
+            if (Input.GetMouseButtonDown(0))
+        {
+#endif
+
             if (!mHasStarted)
             {
                 mHasStarted = true;
                 gameObject.GetComponent<Rigidbody>().useGravity = true;
             }
+
             if ( !closeToLaunchPad  )
             {
                 if (mJumps > 0)
                 {
-                    mouseClickPos = Input.mousePosition;
-                    pressed = true;
+#if UNITY_ANDROID
+                        mouseClickPos = Input.GetTouch(0).position;
+#else
+
+                        mouseClickPos = Input.mousePosition;
+#endif
+
+                        pressed = true;
                     Time.timeScale = 0.4f;
 
                     mAudioSource.Stop();
@@ -223,9 +250,18 @@ public class PlayerController : MonoBehaviour
             }
         }
 
-        if (Input.GetMouseButtonUp(0) )
+#if UNITY_ANDROID
+
+        if (Input.touchCount > 0 && Input.GetTouch(0).phase == TouchPhase.Ended)
         {
-            if (!closeToLaunchPad && pressed)
+            DebugText.text = new string("Touch Ended");
+#else
+
+            if (Input.GetMouseButtonUp(0))
+        {
+#endif
+
+                if (!closeToLaunchPad && pressed)
             {
 
                 mAudioSource.Stop();
@@ -238,7 +274,17 @@ public class PlayerController : MonoBehaviour
                 {
                     Time.timeScale = 1.0f;
                     pressed = false;
-                    Vector2 Releasepos = Input.mousePosition;
+                    Vector2 Releasepos;
+
+#if UNITY_ANDROID
+
+                    Releasepos = Input.GetTouch(0).position;
+
+#else
+                    Releasepos = Input.mousePosition;
+
+#endif
+
                     Vector2 Difference = Releasepos - mouseClickPos;
 
                     float len = Difference.magnitude * 10;
@@ -263,7 +309,13 @@ public class PlayerController : MonoBehaviour
             //aim logic
 
             //direction to which the ball will go
+#if UNITY_ANDROID
+            Vector2 Releasepos = Input.GetTouch(0).position;
+
+#else
             Vector2 Releasepos = Input.mousePosition;
+            
+#endif
             Vector2 Difference = -0.001f * (Releasepos - mouseClickPos);
 
             Vector3 Difference3d = new Vector3(Difference.x, Difference.y, 0);
@@ -286,6 +338,20 @@ public class PlayerController : MonoBehaviour
             closeToLaunchPad = true;
             thislaunchpad = other.gameObject;
             GetComponent<Renderer>().material.SetColor("_Color", Color.red);
+        }
+        if (other.CompareTag("spikes"))
+        {
+            mJumps--;
+            if (mJumps <=0)
+            {
+                lost = true;
+                mCamController.Lose();
+            }
+            mHurtScreen.Activate();
+
+            mAudioSource.Stop();
+            mAudioSource.clip = mHurtClip;
+            mAudioSource.Play();
         }
     }
 

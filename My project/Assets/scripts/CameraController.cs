@@ -20,7 +20,7 @@ public class CameraController : MonoBehaviour
 
     float highest;
 
-    bool Lost = false;
+    public bool Lost = false;
 
 
     // Start is called before the first frame update
@@ -66,17 +66,7 @@ public class CameraController : MonoBehaviour
 
         if (mPlayer.transform.position.y < highest - 10)
         {
-            Lost = true;
-            LoseScreen.SetActive(true);
-            LoseScreen.transform.Find("Score").GetComponent<Text>().text = new string("Score: " + highest.ToString("F1"));
-            float highscore = PlayerPrefs.GetFloat("High");
-            if (highest > highscore)
-            {
-                PlayerPrefs.SetFloat("High", highest);
-                highscore = highest;
-                LoseScreen.transform.Find("newhs").gameObject.SetActive(true);
-            }
-            LoseScreen.transform.Find("HighScore").GetComponent<Text>().text = new string("High-Score: " + highscore.ToString("F1"));
+            Lose();
         }
 
     }
@@ -105,5 +95,21 @@ public class CameraController : MonoBehaviour
         gotToPlayer = false;
         timeSinceLastLaunch = 0.0f;
         Started = true;
+    }
+
+    public void Lose()
+    {
+        mPlayer.GetComponent<PlayerController>().lost = true;
+        Lost = true;
+        LoseScreen.SetActive(true);
+        LoseScreen.transform.Find("Score").GetComponent<Text>().text = new string("Score: " + highest.ToString("F1"));
+        float highscore = PlayerPrefs.GetFloat("High");
+        if (highest > highscore)
+        {
+            PlayerPrefs.SetFloat("High", highest);
+            highscore = highest;
+            LoseScreen.transform.Find("newhs").gameObject.SetActive(true);
+        }
+        LoseScreen.transform.Find("HighScore").GetComponent<Text>().text = new string("High-Score: " + highscore.ToString("F1"));
     }
 }
