@@ -29450,6 +29450,10 @@ PrefabInstance:
       propertyPath: m_Name
       value: LevelBuild2
       objectReference: {fileID: 0}
+    - target: {fileID: 7301010337167289981, guid: 810386a314cc4274b989e1488add7cc0, type: 3}
+      propertyPath: mLastLP
+      value: 1
+      objectReference: {fileID: 0}
     - target: {fileID: 8441376877181241222, guid: 810386a314cc4274b989e1488add7cc0, type: 3}
       propertyPath: mDirection.x
       value: 1

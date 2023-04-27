@@ -196,7 +196,7 @@ public class PlayerController : MonoBehaviour
                 float factor = 1;
                 Debug.Log(dist);
                 float distancetonext = 0.0f;
-                LaunchPad mLPProperties = thislaunchpad.GetComponent<LaunchPad>();
+                LaunchPad lpProperties = thislaunchpad.GetComponent<LaunchPad>();
                 if (dist <= 1.1f)
                 {
                     factor = 100;
@@ -240,23 +240,21 @@ public class PlayerController : MonoBehaviour
                 //thislaunchpad.transform.position = new Vector3(Random.Range(-2, 2), Random.Range(LY+distancetonext-3, LY+distancetonext), 1);
                 Vector3 currVel = gameObject.GetComponent<Rigidbody>().velocity;
                 mLaunchParticles.Play();
-                if (factor >= 0)
-                {
+                if (factor >= 0 && lpProperties.mLastLP)
                     mCamController.PlayerLaunched();
-                }
                 
                 //Set velocity and update launchpad for level generation
                 gameObject.GetComponent<Rigidbody>().velocity = new Vector3(currVel.x, 0, 0);
-                gameObject.GetComponent<Rigidbody>().AddForce(new Vector3(mLPProperties.mDirection.x * mLPProperties.mForce*factor, mLPProperties.mDirection.y * mLPProperties.mForce * factor, 0));
-                mLPProperties.mAccuracyValue = distancetonext;
+                gameObject.GetComponent<Rigidbody>().AddForce(new Vector3(lpProperties.mDirection.x * lpProperties.mForce*factor, lpProperties.mDirection.y * lpProperties.mForce * factor, 0));
+                lpProperties.mAccuracyValue = distancetonext;
                 thislaunchpad.SetActive(false);
                 closeToLaunchPad = false;
                 thislaunchpad = null;
                 GetComponent<Renderer>().material.SetColor("_Color", Color.white);
                 puffed = false;
-                mJumps++;
 
-
+                if(lpProperties.mExtraJump)
+                    mJumps++;
                 mAudioSource.Stop();
                 mAudioSource.clip = mLaunchClip;
                 mAudioSource.Play();
