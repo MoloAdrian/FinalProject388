@@ -55,7 +55,6 @@ public class FlowManager : MonoBehaviour
         else
             PlayerPrefs.SetFloat("SoundVolume", mSoundSlider.value);
         mOptionsMenu.SetActive(false);
-        //mPlayer.enabled = false;
     }
 
     public void Resume()
@@ -73,6 +72,8 @@ public class FlowManager : MonoBehaviour
     public void ToMenu()
     {
         SceneManager.LoadScene("MenuScene");
+        if (PlayerPrefs.GetInt("DoneTutorial") == 0)
+            PlayerPrefs.SetInt("DoneTutorial", 1);
     }
 
     public void ToOptions()

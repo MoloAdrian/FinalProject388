@@ -98,7 +98,6 @@ public class PlayerController : MonoBehaviour
             TutorialObj.transform.Find("TutoImg").gameObject.SetActive(true);
             TutorialObj.SetActive(true);
         }
-
     }
 
     // Update is called once per frame
