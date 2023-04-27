@@ -11,7 +11,7 @@ public class MainMenu : MonoBehaviour
     [SerializeField] private Text mSoundText;
     [SerializeField] private Slider mMusicSlider;
     [SerializeField] private Slider mSoundSlider;
-    [SerializeField] private Animator mMenuAnimator;
+    [SerializeField] private AudioManager mAudioManager;
 
     // Start is called before the first frame update
     void Start()
@@ -31,7 +31,7 @@ public class MainMenu : MonoBehaviour
         }
         else
             PlayerPrefs.SetFloat("SoundVolume", mSoundSlider.value);
-        mOptionsMenu.SetActive(true);
+        mOptionsMenu.SetActive(false);
     }
 
     // Update texts
@@ -44,11 +44,13 @@ public class MainMenu : MonoBehaviour
     //Button options
     public void GoToOptionsMenu()
     {
-        mMenuAnimator.SetTrigger("OptionsButton");
+        mOptionsMenu.SetActive(true);
+        mMainMenu.SetActive(false);
     }
     public void GoToMainMenu()
     {
-        mMenuAnimator.SetTrigger("ReturnButton");
+        mMainMenu.SetActive(true);
+        mOptionsMenu.SetActive(false);
     }
     public void GoToQuitGame()
     {
@@ -61,10 +63,12 @@ public class MainMenu : MonoBehaviour
     public void UpdateMusicValue()
     {
         PlayerPrefs.SetFloat("MusicVolume", mMusicSlider.value);
+        mAudioManager.UpdateMusicVolume();
     }
     public void UpdateSoundValue()
     {
         PlayerPrefs.SetFloat("SoundVolume", mSoundSlider.value);
+        mAudioManager.UpdateSoundVolume();
     }
 
 }
