@@ -11,10 +11,10 @@ public class CameraController : MonoBehaviour
     public float mMoveTreshold = .1f;
     public float mSpeedDecreaseFactor = 1.0f;
     float moveVelocity = 0.0f;
-    bool gotToPlayer = false;
+    bool gotToPlayer = true;
     private float timeSinceLastLaunch = 0.0f;
     private float minTimeToCatchup = 0.5f;
-    bool Started = false;
+    bool Started = true;
 
     public GameObject LoseScreen;
 
@@ -64,7 +64,7 @@ public class CameraController : MonoBehaviour
             highest = mPlayer.transform.position.y;
         }
 
-        if (mPlayer.transform.position.y < highest - 10)
+        if (mPlayer.transform.position.y < highest - 25)
         {
             Lose();
         }

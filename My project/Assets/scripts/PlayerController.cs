@@ -60,6 +60,8 @@ public class PlayerController : MonoBehaviour
     float timeBeingStill = 0.0f;
     Rigidbody mRB;
 
+    float mForceMultiplyer;
+
 
     private AudioSource mAudioSource;
     // Start is called before the first frame update
@@ -81,7 +83,7 @@ public class PlayerController : MonoBehaviour
         mRB = gameObject.GetComponent<Rigidbody>();
         mHasStarted = false;
         gameObject.GetComponent<Rigidbody>().useGravity = false;
-
+        mForceMultiplyer =  1920.0f / Screen.height;
 
     }
 
@@ -275,9 +277,7 @@ public class PlayerController : MonoBehaviour
             if (!closeToLaunchPad && pressed)
             {
 
-                mAudioSource.Stop();
-                mAudioSource.clip = mJumpClip;
-                mAudioSource.Play();
+                
                 mAimSphere1.transform.position = new Vector3(-100,-2000,3000);
                 mAimSphere2.transform.position = new Vector3(-100,-2000,3000);
                 mAimSphere3.transform.position = new Vector3(-100, -2000, 3000);
@@ -285,6 +285,7 @@ public class PlayerController : MonoBehaviour
                 {
                     Time.timeScale = 1.0f;
                     pressed = false;
+
                     Vector2 Releasepos;
 
 #if UNITY_ANDROID
@@ -298,14 +299,23 @@ public class PlayerController : MonoBehaviour
 
                     Vector2 Difference = Releasepos - mouseClickPos;
 
-                    float len = Difference.magnitude * 10;
+                    float len = mForceMultiplyer * Difference.magnitude * 10;
                     //Debug.Log(Difference.magnitude);
                     len = Mathf.Clamp(len, minShootLen, maxShootLen);
-                    Difference = Difference.normalized;
-                    Rigidbody rb = gameObject.GetComponent<Rigidbody>();
-                    rb.velocity = Vector3.zero;
-                    rb.AddForce(-Difference * len);
-                    mJumps--;
+                    mAudioSource.Stop();
+
+                    //Debug.Log(len);
+                    if (len >= 4000f)
+                    {
+
+                        mAudioSource.clip = mJumpClip;
+                        mAudioSource.Play();
+                        Difference = Difference.normalized;
+                        Rigidbody rb = gameObject.GetComponent<Rigidbody>();
+                        rb.velocity = Vector3.zero;
+                        rb.AddForce(-Difference * len);
+                        mJumps--;
+                    }
                 }
             }
         }
@@ -329,7 +339,7 @@ public class PlayerController : MonoBehaviour
             Vector2 Releasepos = Input.mousePosition;
             
 #endif
-            Vector2 Difference = -0.001f * (Releasepos - mouseClickPos);
+            Vector2 Difference = -0.001f * mForceMultiplyer* (Releasepos - mouseClickPos);
 
             Vector3 Difference3d = new Vector3(Difference.x, Difference.y, 0);
 
@@ -346,7 +356,7 @@ public class PlayerController : MonoBehaviour
 
     private void OnTriggerEnter(Collider other)
     {
-        if (other.name == "LaunchPad")
+        if (other.CompareTag("lp") || other.name == "LaunchPad")
         {
             closeToLaunchPad = true;
             thislaunchpad = other.gameObject;
@@ -370,7 +380,7 @@ public class PlayerController : MonoBehaviour
 
     private void OnTriggerExit(Collider other)
     {
-        if (other.name == "LaunchPad")
+        if (other.CompareTag("lp") || other.name == "LaunchPad")
         {
             closeToLaunchPad = false;
             thislaunchpad = null;
