@@ -55,7 +55,7 @@ public class FlowManager : MonoBehaviour
         else
             PlayerPrefs.SetFloat("SoundVolume", mSoundSlider.value);
         mOptionsMenu.SetActive(false);
-        mPlayer.enabled = false;
+        //mPlayer.enabled = false;
     }
 
     public void Resume()

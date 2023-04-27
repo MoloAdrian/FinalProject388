@@ -16,6 +16,11 @@ public class MainMenu : MonoBehaviour
     // Start is called before the first frame update
     void Start()
     {
+
+        if (PlayerPrefs.GetInt("DoneTutorial") == 0)
+        {
+            SceneManager.LoadScene(1);
+        }
         mOptionsMenu.SetActive(true);
         if (PlayerPrefs.HasKey("MusicVolume"))
         {

@@ -1,6 +1,7 @@
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
+using UnityEngine.SceneManagement;
 using UnityEngine.SocialPlatforms.Impl;
 using UnityEngine.UI;
 
@@ -47,9 +48,9 @@ public class CameraController : MonoBehaviour
             timeSinceLastLaunch += Time.deltaTime;
             if (timeSinceLastLaunch >= minTimeToCatchup)
             {
-                if (transform.position.y >= mPlayer.transform.position.y + 3)
+                if (transform.position.y >= mPlayer.transform.position.y + 2)
                 {
-                    transform.position = new Vector3(transform.position.x, mPlayer.transform.position.y + 3, transform.position.z);
+                    transform.position = new Vector3(transform.position.x, mPlayer.transform.position.y + 2, transform.position.z);
                     //transform.parent = mPlayer.transform;
                     gotToPlayer = true;
                     moveVelocity = 0.0f;
@@ -84,7 +85,7 @@ public class CameraController : MonoBehaviour
             }
             else
             {
-                transform.position = new Vector3(transform.position.x, mPlayer.transform.position.y + 3, transform.position.z);
+                transform.position = new Vector3(transform.position.x, mPlayer.transform.position.y + 2, transform.position.z);
             }
         }
     }
@@ -99,7 +100,10 @@ public class CameraController : MonoBehaviour
 
     public void Lose()
     {
-        mPlayer.GetComponent<PlayerController>().lost = true;
+        PlayerController pc = mPlayer.GetComponent<PlayerController>();
+        pc.lost = true;
+       
+
         Lost = true;
         LoseScreen.SetActive(true);
         LoseScreen.transform.Find("Score").GetComponent<Text>().text = new string("Score: " + highest.ToString("F1"));
@@ -111,5 +115,9 @@ public class CameraController : MonoBehaviour
             LoseScreen.transform.Find("newhs").gameObject.SetActive(true);
         }
         LoseScreen.transform.Find("HighScore").GetComponent<Text>().text = new string("High-Score: " + highscore.ToString("F1"));
+        if (pc.isTutorial)
+        {
+            PlayerPrefs.SetInt("DoneTutorial", 1);
+        }
     }
 }

@@ -13,6 +13,8 @@ public class PlayerController : MonoBehaviour
     float maxShootLen = 6000;
     bool pressed = false;
 
+    float mPressTime = 0.0f;
+
     bool closeToLaunchPad = false;
     GameObject thislaunchpad;
     public CameraController mCamController;
@@ -64,6 +66,10 @@ public class PlayerController : MonoBehaviour
 
 
     private AudioSource mAudioSource;
+
+    public bool isTutorial;
+    int tutorialPhase = 0;
+    public GameObject TutorialObj;
     // Start is called before the first frame update
     void Start()
     {
@@ -85,12 +91,21 @@ public class PlayerController : MonoBehaviour
         gameObject.GetComponent<Rigidbody>().useGravity = false;
         mForceMultiplyer =  1920.0f / Screen.height;
 
+        if (PlayerPrefs.GetInt("DoneTutorial") == 0)
+        {
+            isTutorial = true;
+            TutorialObj.transform.Find("1").gameObject.SetActive(true);
+            TutorialObj.transform.Find("TutoImg").gameObject.SetActive(true);
+            TutorialObj.SetActive(true);
+        }
+
     }
 
     // Update is called once per frame
     void Update()
     {
 
+        
         if (FlowManager.isPaused)
         {
             pressed = false;
@@ -164,11 +179,7 @@ public class PlayerController : MonoBehaviour
         {
 #endif
 
-            if (!mHasStarted)
-            {
-                mHasStarted = true;
-                gameObject.GetComponent<Rigidbody>().useGravity = true;
-            }
+           
 
             if ( !closeToLaunchPad  )
             {
@@ -187,6 +198,18 @@ public class PlayerController : MonoBehaviour
                     mAudioSource.Stop();
                     mAudioSource.clip = mHoldClip;
                     mAudioSource.Play();
+                    if (isTutorial && tutorialPhase == 0)
+                    {
+                        Transform t = TutorialObj.transform.Find("TutoImg");
+                        t.position -= new Vector3(0, 400, 0);
+                        tutorialPhase++;
+                        TutorialObj.transform.Find("1").gameObject.GetComponent<Text>().text = ("Drag and\n Release!");
+
+
+
+                    }
+
+
                 }
                 
             }
@@ -257,7 +280,7 @@ public class PlayerController : MonoBehaviour
                     //Remove launchpad
                     closeToLaunchPad = false;
                     thislaunchpad = null;
-                    GetComponent<Renderer>().material.SetColor("_Color", Color.white);
+                    //GetComponent<Renderer>().material.SetColor("_Color", Color.white);
                     puffed = false;
 
                     //Give extra jump if launchpad gives it
@@ -266,6 +289,16 @@ public class PlayerController : MonoBehaviour
                     mAudioSource.Stop();
                     mAudioSource.clip = mLaunchClip;
                     mAudioSource.Play();
+
+                    if (isTutorial && tutorialPhase == 3)
+                    {
+                        Time.timeScale = 1.0f;
+                        tutorialPhase++;
+                        TutorialObj.transform.Find("1").gameObject.SetActive(false);
+                        TutorialObj.SetActive(false);
+                        tutorialPhase = -1;
+
+                    }
                 }
             }
         }
@@ -278,7 +311,7 @@ public class PlayerController : MonoBehaviour
 #else
 
             if (Input.GetMouseButtonUp(0))
-        {
+            {
 #endif
 
             if (!closeToLaunchPad && pressed)
@@ -288,9 +321,13 @@ public class PlayerController : MonoBehaviour
                 mAimSphere1.transform.position = new Vector3(-100,-2000,3000);
                 mAimSphere2.transform.position = new Vector3(-100,-2000,3000);
                 mAimSphere3.transform.position = new Vector3(-100, -2000, 3000);
+
                 if (mJumps > 0)
                 {
-                    Time.timeScale = 1.0f;
+                    if (!isTutorial || tutorialPhase == -1)
+                    {
+                        Time.timeScale = 1.0f;
+                    }
                     pressed = false;
 
                     Vector2 Releasepos;
@@ -312,9 +349,19 @@ public class PlayerController : MonoBehaviour
                     mAudioSource.Stop();
 
                     //Debug.Log(len);
-                    if (len >= 4000f)
+                    if (len >= 4000f && mPressTime>= 0.07f)
                     {
 
+                        if (isTutorial && tutorialPhase == 1)
+                        {
+                            TutorialObj.transform.Find("1").gameObject.SetActive(false);
+                            TutorialObj.transform.Find("TutoImg").gameObject.SetActive(false);
+                            tutorialPhase++;
+                        }
+                        
+                        mHasStarted = true;
+                        gameObject.GetComponent<Rigidbody>().useGravity = true;
+                        
                         mAudioSource.clip = mJumpClip;
                         mAudioSource.Play();
                         Difference = Difference.normalized;
@@ -323,17 +370,25 @@ public class PlayerController : MonoBehaviour
                         rb.AddForce(-Difference * len);
                         mJumps--;
                     }
+
+                    mPressTime = 0.0f;
+
                 }
             }
         }
 
-     if (!pressed)
+        if (!pressed)
         {
-            Time.timeScale = 1.0f;
+            if (!isTutorial || tutorialPhase != -1)
+            {
+
+                Time.timeScale = 1.0f;
+            }
         }
 
         if (pressed)
         {
+            mPressTime += Time.deltaTime;
             //aim logic
 
             //direction to which the ball will go
@@ -367,7 +422,17 @@ public class PlayerController : MonoBehaviour
         {
             closeToLaunchPad = true;
             thislaunchpad = other.gameObject;
-            GetComponent<Renderer>().material.SetColor("_Color", Color.red);
+            //GetComponent<Renderer>().material.SetColor("_Color", Color.red);
+            if (isTutorial && tutorialPhase== 2)
+            {
+                Time.timeScale = .05f;
+                tutorialPhase++;
+                TutorialObj.transform.Find("1").gameObject.SetActive(true);
+
+                TutorialObj.transform.Find("1").gameObject.GetComponent<Text>().text = ("Tap to\n launch!");
+
+
+            }
         }
         if (other.CompareTag("spikes"))
         {
@@ -391,7 +456,7 @@ public class PlayerController : MonoBehaviour
         {
             closeToLaunchPad = false;
             thislaunchpad = null;
-            GetComponent<Renderer>().material.SetColor("_Color", Color.white);
+           // GetComponent<Renderer>().material.SetColor("_Color", Color.white);
 
         }
     }

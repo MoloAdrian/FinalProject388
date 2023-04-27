@@ -37,7 +37,8 @@ public class LaunchPad : MonoBehaviour
             if (mCd >= mMaxCD)
             {
                 mCd = 0f;
-                gameObject.GetComponent<MeshRenderer>().material = mNormalMat;
+                gameObject.transform.GetChild(0).GetComponent<SpriteRenderer>().color = new Vector4(64/255.0f, 184/255.0f, 255/255.0f, 255/255.0f);
+
             }
         }
     }
@@ -45,7 +46,7 @@ public class LaunchPad : MonoBehaviour
     public void StartCooldown()
     {
         mCd += Time.deltaTime;
-        gameObject.GetComponent<MeshRenderer>().material = mCooldownMat;
+        gameObject.transform.GetChild(0).GetComponent<SpriteRenderer>().color = new Vector4(64 / 255.0f, 184 / 255.0f, 255 / 255.0f, 50 / 255.0f);
     }
     public bool IsInCooldown()
     {
