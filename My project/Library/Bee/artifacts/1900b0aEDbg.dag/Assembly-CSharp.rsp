@@ -363,6 +363,7 @@
 "Assets/scripts/MainMenu.cs"
 "Assets/scripts/myDeltaTiime.cs"
 "Assets/scripts/PlayerController.cs"
+"Assets/showandunshow.cs"
 -langversion:9.0
 
 /deterministic

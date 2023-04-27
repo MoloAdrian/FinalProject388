@@ -5,22 +5,24 @@ using UnityEngine;
 public class BlockManager : MonoBehaviour
 {
     private Transform mLaunchPads;
-    private int mLPIdx = 0;
-    private GameObject mCurrentLP;
+    private GameObject mLastLP;
     private LevelGenerator mGenerator;
     private bool mBlockEnded = false;
+    bool mFlipX = false;
 
     // Start is called before the first frame update
     void Start()
     {
         //Spawn first launchpad
         mLaunchPads = gameObject.transform.GetChild(0);
+        mLastLP = mLaunchPads.transform.GetChild(mLaunchPads.transform.childCount - 1).gameObject;
         mGenerator = GameObject.Find("FlowManager").GetComponent<LevelGenerator>();
-        if (mLPIdx < mLaunchPads.childCount)
+
+        if (mFlipX)
         {
-            //Set launchpad at random position and activate
-            mCurrentLP = mLaunchPads.GetChild(mLPIdx++).transform.gameObject;
-            mCurrentLP.SetActive(true);
+            gameObject.transform.localScale = new Vector3(-gameObject.transform.localScale.x, gameObject.transform.localScale.y, gameObject.transform.localScale.z);
+            for (int i = 0; i < mLaunchPads.childCount; i++)
+                mLaunchPads.GetChild(i).gameObject.GetComponent<LaunchPad>().mDirection.x = -mLaunchPads.GetChild(i).gameObject.GetComponent<LaunchPad>().mDirection.x;
         }
     }
 
@@ -29,20 +31,16 @@ public class BlockManager : MonoBehaviour
     {
         if (mBlockEnded)
             return;
-        if(mCurrentLP.activeSelf == false)
+        if(mLastLP.activeSelf == false)
         {
-            if (mLPIdx < mLaunchPads.childCount)
-            {
-                //Set launchpad at random position and activate
-                mCurrentLP = mLaunchPads.GetChild(mLPIdx++).transform.gameObject;
-                mCurrentLP.SetActive(true);
-            }
-            else
-            {
-                float launchBonus = mCurrentLP.GetComponent<LaunchPad>().mAccuracyValue - 3;
-                mGenerator.GenerateNewLevel(new Vector3(0, mCurrentLP.transform.position.y + launchBonus, 0));
-                mBlockEnded = true;
-            }
+            float launchBonus = mLastLP.GetComponent<LaunchPad>().mAccuracyValue - 3;
+            mGenerator.GenerateNewLevel(new Vector3(0, mLastLP.transform.position.y + launchBonus, 0));
+            mBlockEnded = true;
         }
+    }
+
+    public void FlipX()
+    {
+        mFlipX = true;
     }
 }
