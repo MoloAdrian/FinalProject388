@@ -57,6 +57,9 @@ public class PlayerController : MonoBehaviour
     bool mHasStarted = false;
     public bool lost = false;
 
+    float timeBeingStill = 0.0f;
+    Rigidbody mRB;
+
 
     private AudioSource mAudioSource;
     // Start is called before the first frame update
@@ -75,7 +78,7 @@ public class PlayerController : MonoBehaviour
         mAudioSource = GetComponent<AudioSource>();
 
         mBounceSource = mBouncesounder.GetComponent<AudioSource>();
-
+        mRB = gameObject.GetComponent<Rigidbody>();
         mHasStarted = false;
         gameObject.GetComponent<Rigidbody>().useGravity = false;
 
@@ -95,6 +98,16 @@ public class PlayerController : MonoBehaviour
         if (lost)
         {
             return;
+        }
+
+        if (mHasStarted&& Vector3.Magnitude(mRB.velocity)< 0.1f && mJumps <=0)
+        {
+            timeBeingStill += Time.deltaTime;
+            if (timeBeingStill >= 1.0f)
+            {
+                lost = true;
+                mCamController.Lose();
+            }
         }
         
         if (mEmptying)
@@ -140,7 +153,7 @@ public class PlayerController : MonoBehaviour
 
 #if UNITY_ANDROID
 
-        if (Input.touchCount > 0 )
+        if (Input.touchCount > 0 && Input.GetTouch(0).phase == TouchPhase.Began)
         {
            
             DebugText.text = new string("Touch began");
@@ -261,7 +274,7 @@ public class PlayerController : MonoBehaviour
         {
 #endif
 
-                if (!closeToLaunchPad && pressed)
+            if (!closeToLaunchPad && pressed)
             {
 
                 mAudioSource.Stop();
@@ -311,6 +324,8 @@ public class PlayerController : MonoBehaviour
             //direction to which the ball will go
 #if UNITY_ANDROID
             Vector2 Releasepos = Input.GetTouch(0).position;
+            DebugText.text = new string(Releasepos.ToString("F1"));
+            
 
 #else
             Vector2 Releasepos = Input.mousePosition;
@@ -390,6 +405,8 @@ public class PlayerController : MonoBehaviour
         {
             mJumps++;
             mEmptying = true;
+            mGainJumpParts.gameObject.SetActive(true);
+
             mGainJumpParts.Play();
             mBar.GetComponent<AudioSource>().Play();
             mJumpsText.color = new Vector4(0.41f,0.85f,1,1);
