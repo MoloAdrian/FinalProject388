@@ -192,74 +192,82 @@ public class PlayerController : MonoBehaviour
             }
             else
             {
-                pressed = false;
-                //compute distance to launchpad
-                float dist = (gameObject.transform.position - thislaunchpad.transform.position).magnitude;
-                float factor = 1;
-                Debug.Log(dist);
-                float distancetonext = 0.0f;
                 LaunchPad lpProperties = thislaunchpad.GetComponent<LaunchPad>();
-                if (dist <= 1.1f)
+                if (!lpProperties.IsInCooldown())
                 {
-                    factor = 100;
-                    Debug.Log("Perfect " + factor);
-                    distancetonext = 25;
-                    mHowGoodText.text = "Perfect!";
-                    if (!mEmptying)
-                      mBarCharge += 30.0f;
+                    pressed = false;
+                    //compute distance to launchpad
+                    float dist = (gameObject.transform.position - thislaunchpad.transform.position).magnitude;
+                    float factor = 1;
+                    Debug.Log(dist);
+                    float distancetonext = 0.0f;
+                    if (dist <= 1.1f)
+                    {
+                        factor = 100;
+                        Debug.Log("Perfect " + factor);
+                        distancetonext = 25;
+                        mHowGoodText.text = "Perfect!";
+                        if (!mEmptying)
+                            mBarCharge += 30.0f * lpProperties.mJumpBarFactor;
+                    }
+                    else if (dist <= 1.4f)
+                    {
+                        factor = 80;
+                        Debug.Log("Very Good " + factor);
+                        distancetonext = 17;
+                        mHowGoodText.text = "Very Good!";
+                        if (!mEmptying)
+                            mBarCharge += 25.0f * lpProperties.mJumpBarFactor;
+
+
+                    }
+                    else if (dist <= 1.6F)
+                    {
+                        factor = 65;
+                        Debug.Log("Good " + factor);
+                        distancetonext = 14;
+                        mHowGoodText.text = "Good!";
+                        if (!mEmptying)
+                            mBarCharge += 22.0f * lpProperties.mJumpBarFactor;
+
+
+                    }
+                    else
+                    {
+                        //factor = -70;
+                        //Debug.Log("Bad " + factor);
+
+                    }
+                    float LY = thislaunchpad.transform.position.y;
+
+
+                    //thislaunchpad.transform.position = new Vector3(Random.Range(-2, 2), Random.Range(LY   +distancetonext-3, LY+distancetonext), 1);
+                    Vector3 currVel = gameObject.GetComponent<Rigidbody>().velocity;
+                    mLaunchParticles.Play();
+                    if (factor >= 0 && lpProperties.mLastLP)
+                        mCamController.PlayerLaunched();
+
+                    //Set velocity and update launchpad for level generation
+                    if(lpProperties.mCancelPlayerVel)
+                        gameObject.GetComponent<Rigidbody>().velocity = new Vector3(0, 0, 0);
+                   else
+                        gameObject.GetComponent<Rigidbody>().velocity = new Vector3(currVel.x, 0, 0);
+
+                    gameObject.GetComponent<Rigidbody>().AddForce(new Vector3(lpProperties.mDirection.x * lpProperties.mForce * factor, lpProperties.mDirection.y * lpProperties.mForce * factor, 0));
+                    lpProperties.mAccuracyValue = distancetonext;
+                    closeToLaunchPad = false;
+                    lpProperties.StartCooldown();
+                    lpProperties.mTriggered = true;
+                    thislaunchpad = null;
+                    GetComponent<Renderer>().material.SetColor("_Color", Color.white);
+                    puffed = false;
+
+                    if (lpProperties.mExtraJump)
+                        mJumps++;
+                    mAudioSource.Stop();
+                    mAudioSource.clip = mLaunchClip;
+                    mAudioSource.Play();
                 }
-                else if (dist <= 1.4f)
-                {
-                    factor = 80;
-                    Debug.Log("Very Good " + factor);
-                    distancetonext = 17;
-                    mHowGoodText.text = "Very Good!";
-                    if (!mEmptying)
-                       mBarCharge += 25.0f;
-
-
-                }
-                else if (dist <= 1.6F)
-                {
-                    factor = 65;
-                    Debug.Log("Good " + factor);
-                    distancetonext = 14;
-                    mHowGoodText.text = "Good!";
-                    if (!mEmptying)
-                        mBarCharge += 22.0f;
-
-
-                }
-                else
-                {
-                    //factor = -70;
-                    //Debug.Log("Bad " + factor);
-
-                }
-                float LY = thislaunchpad.transform.position.y;
-
-                
-                //thislaunchpad.transform.position = new Vector3(Random.Range(-2, 2), Random.Range(LY+distancetonext-3, LY+distancetonext), 1);
-                Vector3 currVel = gameObject.GetComponent<Rigidbody>().velocity;
-                mLaunchParticles.Play();
-                if (factor >= 0 && lpProperties.mLastLP)
-                    mCamController.PlayerLaunched();
-                
-                //Set velocity and update launchpad for level generation
-                gameObject.GetComponent<Rigidbody>().velocity = new Vector3(currVel.x, 0, 0);
-                gameObject.GetComponent<Rigidbody>().AddForce(new Vector3(lpProperties.mDirection.x * lpProperties.mForce*factor, lpProperties.mDirection.y * lpProperties.mForce * factor, 0));
-                lpProperties.mAccuracyValue = distancetonext;
-                thislaunchpad.SetActive(false);
-                closeToLaunchPad = false;
-                thislaunchpad = null;
-                GetComponent<Renderer>().material.SetColor("_Color", Color.white);
-                puffed = false;
-
-                if(lpProperties.mExtraJump)
-                    mJumps++;
-                mAudioSource.Stop();
-                mAudioSource.clip = mLaunchClip;
-                mAudioSource.Play();
             }
         }
 
