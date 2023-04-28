@@ -358,6 +358,7 @@
 "Assets/scripts/Camera/CameraAnchor.cs"
 "Assets/scripts/Camera/ViewportHandler.cs"
 "Assets/scripts/CameraController.cs"
+"Assets/scripts/FadeScreen.cs"
 "Assets/scripts/LaunchPad.cs"
 "Assets/scripts/LevelGenerator.cs"
 "Assets/scripts/MainMenu.cs"

@@ -12,6 +12,7 @@ public class MainMenu : MonoBehaviour
     [SerializeField] private Slider mMusicSlider;
     [SerializeField] private Slider mSoundSlider;
     [SerializeField] private AudioManager mAudioManager;
+    [SerializeField] private FadeScreen mFadeScreen;
 
     // Start is called before the first frame update
     void Start()
@@ -59,11 +60,17 @@ public class MainMenu : MonoBehaviour
     }
     public void GoToQuitGame()
     {
-        Application.Quit();
+        mFadeScreen.gameObject.SetActive(true);
+        mFadeScreen.StartFade(-1);
+        for(int i = 0; i < mMainMenu.transform.childCount; i++)
+            mMainMenu.transform.GetChild(i).GetComponent<UnityEngine.UI.Button>().enabled = false;
     }
     public void GoToGamePlay()
     {
-        SceneManager.LoadScene("SampleScene");
+        mFadeScreen.gameObject.SetActive(true);
+        mFadeScreen.StartFade(1);
+        for (int i = 0; i < mMainMenu.transform.childCount; i++)
+            mMainMenu.transform.GetChild(i).GetComponent<UnityEngine.UI.Button>().enabled = false;
     }
     public void UpdateMusicValue()
     {

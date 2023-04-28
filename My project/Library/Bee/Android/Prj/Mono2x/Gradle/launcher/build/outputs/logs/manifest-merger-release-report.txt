@@ -9,7 +9,7 @@ INJECTED from T:\Adrian\OneDrive\Documents\GitHub\FinalProject388\My project\Lib
 INJECTED from T:\Adrian\OneDrive\Documents\GitHub\FinalProject388\My project\Library\Bee\Android\Prj\Mono2x\Gradle\launcher\src\main\AndroidManifest.xml:2:1-5:12
 INJECTED from T:\Adrian\OneDrive\Documents\GitHub\FinalProject388\My project\Library\Bee\Android\Prj\Mono2x\Gradle\launcher\src\main\AndroidManifest.xml:2:1-5:12
 	package
-		ADDED from T:\Adrian\OneDrive\Documents\GitHub\FinalProject388\My project\Library\Bee\Android\Prj\Mono2x\Gradle\launcher\src\main\AndroidManifest.xml:2:70-114
+		ADDED from T:\Adrian\OneDrive\Documents\GitHub\FinalProject388\My project\Library\Bee\Android\Prj\Mono2x\Gradle\launcher\src\main\AndroidManifest.xml:2:70-99
 		INJECTED from T:\Adrian\OneDrive\Documents\GitHub\FinalProject388\My project\Library\Bee\Android\Prj\Mono2x\Gradle\launcher\src\main\AndroidManifest.xml
 		INJECTED from T:\Adrian\OneDrive\Documents\GitHub\FinalProject388\My project\Library\Bee\Android\Prj\Mono2x\Gradle\launcher\src\main\AndroidManifest.xml
 	android:versionName
@@ -17,7 +17,7 @@ INJECTED from T:\Adrian\OneDrive\Documents\GitHub\FinalProject388\My project\Lib
 		ADDED from T:\Adrian\OneDrive\Documents\GitHub\FinalProject388\My project\Library\Bee\Android\Prj\Mono2x\Gradle\launcher\src\main\AndroidManifest.xml:2:1-5:12
 		INJECTED from T:\Adrian\OneDrive\Documents\GitHub\FinalProject388\My project\Library\Bee\Android\Prj\Mono2x\Gradle\launcher\src\main\AndroidManifest.xml
 	xmlns:tools
-		ADDED from T:\Adrian\OneDrive\Documents\GitHub\FinalProject388\My project\Library\Bee\Android\Prj\Mono2x\Gradle\launcher\src\main\AndroidManifest.xml:2:115-161
+		ADDED from T:\Adrian\OneDrive\Documents\GitHub\FinalProject388\My project\Library\Bee\Android\Prj\Mono2x\Gradle\launcher\src\main\AndroidManifest.xml:2:100-146
 	android:versionCode
 		INJECTED from T:\Adrian\OneDrive\Documents\GitHub\FinalProject388\My project\Library\Bee\Android\Prj\Mono2x\Gradle\launcher\src\main\AndroidManifest.xml
 		ADDED from T:\Adrian\OneDrive\Documents\GitHub\FinalProject388\My project\Library\Bee\Android\Prj\Mono2x\Gradle\launcher\src\main\AndroidManifest.xml:2:1-5:12
@@ -25,7 +25,7 @@ INJECTED from T:\Adrian\OneDrive\Documents\GitHub\FinalProject388\My project\Lib
 	xmlns:android
 		ADDED from T:\Adrian\OneDrive\Documents\GitHub\FinalProject388\My project\Library\Bee\Android\Prj\Mono2x\Gradle\launcher\src\main\AndroidManifest.xml:2:11-69
 	android:installLocation
-		ADDED from T:\Adrian\OneDrive\Documents\GitHub\FinalProject388\My project\Library\Bee\Android\Prj\Mono2x\Gradle\launcher\src\main\AndroidManifest.xml:2:162-202
+		ADDED from T:\Adrian\OneDrive\Documents\GitHub\FinalProject388\My project\Library\Bee\Android\Prj\Mono2x\Gradle\launcher\src\main\AndroidManifest.xml:2:147-187
 supports-screens
 ADDED from T:\Adrian\OneDrive\Documents\GitHub\FinalProject388\My project\Library\Bee\Android\Prj\Mono2x\Gradle\launcher\src\main\AndroidManifest.xml:3:3-163
 	android:largeScreens

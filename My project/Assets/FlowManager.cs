@@ -20,6 +20,7 @@ public class FlowManager : MonoBehaviour
     [SerializeField] private Slider mSoundSlider;
     [SerializeField] private PlayerController mPlayer;
     [SerializeField] private AudioManager mAudioManager;
+    [SerializeField] private FadeScreen mFadeScreen;
 
     // Start is called before the first frame update
     void Start()
@@ -66,12 +67,18 @@ public class FlowManager : MonoBehaviour
     }
     public void Restart()
     {
-        SceneManager.LoadScene(SceneManager.GetActiveScene().name);
+        mFadeScreen.gameObject.SetActive(true);
+        mFadeScreen.StartFade(1);
+        for (int i = 0; i < mPauseMenu.transform.childCount; i++)
+            mPauseMenu.transform.GetChild(i).GetComponent<Button>().enabled = false;
     }
 
     public void ToMenu()
     {
-        SceneManager.LoadScene("MenuScene");
+        mFadeScreen.gameObject.SetActive(true);
+        mFadeScreen.StartFade(0);
+        for (int i = 0; i < mMainMenu.transform.childCount; i++)
+            mMainMenu.transform.GetChild(i).GetComponent<Button>().enabled = false;
         if (PlayerPrefs.GetInt("DoneTutorial") == 0)
             PlayerPrefs.SetInt("DoneTutorial", 1);
     }

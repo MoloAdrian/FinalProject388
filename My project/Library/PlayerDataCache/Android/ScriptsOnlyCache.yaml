@@ -5,6 +5,7 @@ ScriptsOnlyBuild:
     - BlockManager
     - CameraAnchor
     - CameraController
+    - FadeScreen
     - FlowManager
     - LaunchPad
     - LevelGenerator
@@ -19,6 +20,8 @@ ScriptsOnlyBuild:
     - TMPro.TMP_Settings
     - TMPro.TMP_SpriteAsset
     - TMPro.TMP_StyleSheet
+    Unity.Timeline.Editor.dll:
+    - TimelinePreferences
     UnityEditor.TestRunner.dll:
     - UnityEditor.TestTools.TestRunner.Api.CallbacksHolder
     - UnityEditor.TestTools.TestRunner.TestListCacheData
@@ -142,38 +145,42 @@ ScriptsOnlyBuild:
       Script: {instanceID: 0}
     - Class: 83
       Script: {instanceID: 0}
+    - Class: 89
+      Script: {instanceID: 0}
     - Class: 104
       Script: {instanceID: 0}
     - Class: 108
       Script: {instanceID: 0}
     - Class: 114
-      Script: {instanceID: 1598}
+      Script: {instanceID: 1588}
     - Class: 114
-      Script: {instanceID: 1784}
+      Script: {instanceID: 1774}
     - Class: 114
-      Script: {instanceID: 2220}
+      Script: {instanceID: 2210}
     - Class: 114
-      Script: {instanceID: 2658}
+      Script: {instanceID: 2648}
     - Class: 114
-      Script: {instanceID: 2882}
+      Script: {instanceID: 2872}
     - Class: 114
-      Script: {instanceID: 3182}
+      Script: {instanceID: 3172}
     - Class: 114
-      Script: {instanceID: 3206}
+      Script: {instanceID: 3196}
     - Class: 114
-      Script: {instanceID: 4258}
+      Script: {instanceID: 4248}
     - Class: 114
-      Script: {instanceID: 4526}
+      Script: {instanceID: 4516}
     - Class: 114
-      Script: {instanceID: 5200}
+      Script: {instanceID: 5190}
     - Class: 114
-      Script: {instanceID: 5290}
+      Script: {instanceID: 5280}
     - Class: 114
-      Script: {instanceID: 5566}
+      Script: {instanceID: 5556}
     - Class: 114
-      Script: {instanceID: 5898}
+      Script: {instanceID: 5888}
     - Class: 114
-      Script: {instanceID: 6394}
+      Script: {instanceID: 6384}
+    - Class: 114
+      Script: {instanceID: 25220}
     - Class: 115
       Script: {instanceID: 0}
     - Class: 128
@@ -229,48 +236,48 @@ ScriptsOnlyBuild:
       Script: {instanceID: 0}
     - Class: 83
       Script: {instanceID: 0}
-    - Class: 89
-      Script: {instanceID: 0}
     - Class: 104
       Script: {instanceID: 0}
     - Class: 108
       Script: {instanceID: 0}
     - Class: 114
-      Script: {instanceID: 1598}
+      Script: {instanceID: 1588}
     - Class: 114
-      Script: {instanceID: 1756}
+      Script: {instanceID: 1746}
     - Class: 114
-      Script: {instanceID: 1784}
+      Script: {instanceID: 1774}
     - Class: 114
-      Script: {instanceID: 2556}
+      Script: {instanceID: 2546}
     - Class: 114
-      Script: {instanceID: 2658}
+      Script: {instanceID: 2648}
     - Class: 114
-      Script: {instanceID: 2882}
+      Script: {instanceID: 2872}
     - Class: 114
-      Script: {instanceID: 3182}
+      Script: {instanceID: 3172}
     - Class: 114
-      Script: {instanceID: 3232}
+      Script: {instanceID: 3222}
     - Class: 114
-      Script: {instanceID: 3430}
+      Script: {instanceID: 3420}
     - Class: 114
-      Script: {instanceID: 3534}
+      Script: {instanceID: 3524}
     - Class: 114
-      Script: {instanceID: 5200}
+      Script: {instanceID: 5190}
     - Class: 114
-      Script: {instanceID: 5566}
+      Script: {instanceID: 5556}
     - Class: 114
-      Script: {instanceID: 5754}
+      Script: {instanceID: 5744}
     - Class: 114
-      Script: {instanceID: 5898}
+      Script: {instanceID: 5888}
     - Class: 114
-      Script: {instanceID: 6038}
+      Script: {instanceID: 6028}
     - Class: 114
-      Script: {instanceID: 6394}
+      Script: {instanceID: 6384}
     - Class: 114
-      Script: {instanceID: 6410}
+      Script: {instanceID: 6400}
     - Class: 114
-      Script: {instanceID: 8200}
+      Script: {instanceID: 8190}
+    - Class: 114
+      Script: {instanceID: 25220}
     - Class: 115
       Script: {instanceID: 0}
     - Class: 128
@@ -540,7 +547,7 @@ ScriptsOnlyBuild:
     className: Button
   - hash:
       serializedVersion: 2
-      Hash: da507ebce73be3a31c92dbba158ea73c
+      Hash: ef744979a8c06bdfd14f82f83cbaf3df
     assemblyName: Assembly-CSharp.dll
     namespaceName: 
     className: MainMenu
@@ -1134,7 +1141,7 @@ ScriptsOnlyBuild:
     className: UnityOnToggleValueChangedMessageListener
   - hash:
       serializedVersion: 2
-      Hash: 20782a43e1d9b090834945f093985ab5
+      Hash: 95a19a07ede235428576f11e4bed3bde
     assemblyName: Assembly-CSharp.dll
     namespaceName: 
     className: FlowManager
@@ -1156,6 +1163,12 @@ ScriptsOnlyBuild:
     assemblyName: Unity.VisualScripting.Core.dll
     namespaceName: Unity.VisualScripting
     className: UnityOnSliderValueChangedMessageListener
+  - hash:
+      serializedVersion: 2
+      Hash: 87f660c8df7295221d58b70ae414986b
+    assemblyName: Assembly-CSharp.dll
+    namespaceName: 
+    className: FadeScreen
   platform: 13
   scenePathNames:
   - Assets/Scenes/MenuScene.unity

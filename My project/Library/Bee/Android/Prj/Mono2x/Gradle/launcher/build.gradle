@@ -16,7 +16,7 @@ android {
     defaultConfig {
         minSdkVersion 22
         targetSdkVersion 30
-        applicationId 'com.adrianmontes_mikeletxabe.final'
+        applicationId 'com.CS3882023.Hoppi'
         ndk {
             abiFilters 'armeabi-v7a'
         }
